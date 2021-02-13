@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <title>Registro</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap core CSS -->
+  <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="styles/signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+  <div class="container">
+
+    <form id="form" class="form">
+      <img class="img-responsive mb-4" src="assets/brand/logo_negro.svg" alt="logo" style="width:100%" width="72"
+        height="57">
+      <div class="header">
+        <h2>Si no tienes una cuenta, registrate</h2>
+      </div>
+
+      <div class="form-control">
+        <label for="nombre" >Nombre</label>
+        <input type="text" id="nombre" placeholder="Nombre" >
+        <small>Error</small>
+      </div>
+
+      <div class="form-control">
+        <label for="inputEmail">Email</label>
+        <input type="email" id="inputEmail" placeholder="Correo electrónico" >
+        <small>Error</small>
+      </div>
+
+      <div class="form-control">
+        <label for="rfc">RFC</label>
+        <input type="text" id="rfc" placeholder="RFC">
+        <small>Error</small>
+      </div>
+
+      <div class="form-control">
+        <label for="passwd">Crea tu contraseña</label>
+        <input type="password" id="passwd" placeholder="Contraseña">
+        <small>Error</small>
+      </div>
+
+      <div class="form-control">
+        <label for="passwd2">Verifica tu contraseña</label>
+        <input type="password" id="passwd2" placeholder="Verifica tu contraseña" autocomplete="off">
+        <small>Error</small>
+      </div>
+
+      <button class="btn btn-dark btn-md" id="registro" type="submit"><a>Registar</a></button>
+      <button class="btn btn-outline-dark btn-md" type="button"><a href="login.html">Inicia Sesión</a></button>
+    </form>
+  </div>
+<script type="text/javascript" src="scripts/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <title>Inicio de Sesión</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap core CSS -->
+  <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="styles/signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+  <div class="container">
+
+    <form id="form" class="form">
+      <img class="img-responsive mb-4" src="assets/brand/logo_negro.svg" alt="logo" style="width:100%" width="72"
+        height="57">
+      <div class="header">
+        <h2>Inicia sesión</h2>
+      </div>
+
+      <div class="form-control">
+        <label for="inputEmail">Correo electrónico</label>
+        <input type="email" id="inputEmail" placeholder="Email" autocomplete="off">
+        <small>Error</small>
+      </div>
+
+      <div class="form-control">
+        <label for="inputPasswd">Contraseña</label>
+        <input type="password" id="inputPasswd" placeholder="Contraseña" autocomplete="off">
+        <small>Error</small>
+      </div>
+
+      <button class="btn btn-dark btn-md" type="submit">Inicar sesion</button>
+      <button class="btn btn-outline-dark btn-md" type="button"><a href="scripts/index.html">Registrate</a></button>
+    </form>
+  </div>
+  <script type="text/javascript" src="scripts/login.js"></script>
+</body>
+
+</html>
