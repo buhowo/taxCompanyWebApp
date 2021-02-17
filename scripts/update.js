@@ -171,7 +171,7 @@ function actualizarUsuario() {
     usrActuales[usrIndex].rfc = rfc.value;
     usrActuales[usrIndex].direccion = direccion.value;
     usrActuales[usrIndex].telefono = telefono.value;
-    usrActuales[usrIndex].website = website.value;
+    usrActuales[usrIndex].web = website.value;
     usrActuales[usrIndex].passwd = passwd.value;
 
     localStorage.setItem("Usuarios", JSON.stringify(usrActuales));
