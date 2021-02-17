@@ -36,7 +36,7 @@ function mostrarInfo(){
     
     rowTwo.innerHTML = `
       <td>${usr.telefono}</td>
-      <td>${usr.website}</td>
+      <td>${usr.web}</td>
     `;
     listTwo.appendChild(rowTwo);
 }
