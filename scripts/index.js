@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
     console.table(usr.cargarUsuarios());
 });
 
-if (window.location.pathname === '/index.html') {
-    form.addEventListener('submit', (e) => {
+
+document.getElementById("registro").addEventListener('click', (e) => {
         //Evitamos el envio de forms vacios
         e.preventDefault();
 
@@ -70,7 +70,6 @@ if (window.location.pathname === '/index.html') {
             window.location.replace("login.html");
         }
     });
-}
 
 function getFormValues() {
     const values = {

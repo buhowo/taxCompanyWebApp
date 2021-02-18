@@ -1,14 +1,13 @@
 // jshint esversion:6
-if (window.location.pathname === '/taxCompanyWebApp/login.html') {
-    form.addEventListener('submit', (e) => {
-        //Evitamos el envio de forms vacios
-        e.preventDefault();
-        //Avanza solo cuando este completos los campos
-        if (verificaCampos()) {
-            usr.inicioSesion(email.value);
-        }
-    });
-}
+
+document.getElementById("btn-inicio").addEventListener( 'click', (e) => {
+    //Evitamos el envio de forms vacios
+    e.preventDefault();
+    //Avanza solo cuando este completos los campos
+    if (verificaCampos()) {
+        usr.inicioSesion(email.value);
+    }
+});
 
 function verificaCampos() {
     let valores = getFormValues();
