@@ -3,57 +3,92 @@ const form = document.getElementById("form");
 const nombre = document.getElementById("nombre");
 const email = document.getElementById("inputEmail");
 const rfc = document.getElementById("rfc");
-const passwd = document.getElementById("passwd");
+const passwd = document.getElementById("inputPasswd");
 const passwd2 = document.getElementById("passwd2");
 
-/*Cada que se carga la ventana agregamos los usuarios existentes en el localStorage
- al array usrActuales = [] */
-document.addEventListener("DOMContentLoaded", console.log(cargarUsuarios()));
-
-form.addEventListener('submit', (e) => {
-    //Evitamos el envio de forms vacios
-    e.preventDefault();
-
-    //Si todos los campos introducidos son correctos, procede agregando el usuario al almacenamiento
-    if (verificaCampos()) {
-        guardarUsuarios(crearUsuario());
-        //Redireccionamiento a la pantalla de login
-        window.location.replace("login.html");
+class Usuario {
+    constructor(nombre, email, rfc, passwd) {
+        this.nombre = nombre;
+        this.email = email;
+        this.rfc = rfc;
+        this.passwd = passwd;
+        this.direccion = "";
+        this.web = "";
+        this.telefono = "";
     }
-});
-
-function cargarUsuarios() {
-    //Verifica que existan usuarios en el localStorage
-    //Si esta vacio inicializa el arreglo
-    let usrActuales;
-    if (localStorage.getItem("Usuarios") === null) {
-        usrActuales = [];
-        console.log("No hay usuarios registrados aun");
+    crearUsuario() {
+        var nuevoUsuario = new Usuario(nombre.value, email.value, rfc.value, passwd.value);
+        return nuevoUsuario;
     }
-    else {
-        //Los obtenemos y alimentamos el array usrActuales
-        usrActuales = JSON.parse(localStorage.getItem("Usuarios"));
+    guardarUsuarios(newUsr) {
+        let usrActuales = this.cargarUsuarios();
+        usrActuales = [...usrActuales, newUsr,];
+        localStorage.setItem("Usuarios", JSON.stringify(usrActuales));
     }
-    return usrActuales;
+    cargarUsuarios() {
+        //Verifica que existan usuarios en el localStorage
+        //Si esta vacio inicializa el arreglo
+        let usrActuales;
+        if (localStorage.getItem("Usuarios") === null) {
+            usrActuales = [];
+            console.log("No hay usuarios registrados aun");
+        }
+        else {
+            //Los obtenemos y alimentamos el array usrActuales
+            usrActuales = JSON.parse(localStorage.getItem("Usuarios"));
+        }
+        return usrActuales;
+    }
+    inicioSesion(email) {
+        /*En este punto de la ejecución los datos ya han sido validados 
+        por lo tanto solo los guardaremos y crearemos una sesión.*/
+        let usrEmail = email;
+        let usrActuales = this.cargarUsuarios();
+        //Obtenemos solo el usuario que esta iniciando sesión
+        const usrSesion = usrActuales.find(usuario => usuario.email === usrEmail);
+        //Creamos la sesión
+        sessionStorage.setItem('Sesion', JSON.stringify(usrSesion));
+        // Ahora nos dirijimos al menú de la app
+        window.location.replace("menu.html");
+    }
 }
 
-function guardarUsuarios(newUsr) {
-    const usrActuales = cargarUsuarios();
-    usrActuales.push(newUsr);
-    localStorage.setItem("Usuarios", JSON.stringify(usrActuales));
+document.addEventListener("DOMContentLoaded", () => {
+    usr = new Usuario();
+    console.table(usr.cargarUsuarios());
+});
+
+if (window.location.pathname === '/index.html') {
+    form.addEventListener('submit', (e) => {
+        //Evitamos el envio de forms vacios
+        e.preventDefault();
+
+        //Si todos los campos introducidos son correctos, procede agregando el usuario al almacenamiento
+        if (verificaCampos()) {
+            usr.guardarUsuarios(usr.crearUsuario());
+            //Redireccionamiento a la pantalla de login
+            window.location.replace("login.html");
+        }
+    });
+}
+
+function getFormValues() {
+    const values = {
+        valorNombre: nombre.value.trim(),
+        valorEmail: email.value.trim(),
+        valorRFC: rfc.value.trim(),
+        valorPasswd: passwd.value.trim(),
+        valorPasswd2: passwd2.value.trim(),
+    };
+    return values;
 }
 
 function verificaCampos() {
     //Validacion de campos de acuerdo a la especificación de requisitos
-    const valorNombre = nombre.value.trim();
-    const valorEmail = email.value.trim();
-    const valorRFC = rfc.value.trim();
-    const valorPasswd = passwd.value.trim();
-    const valorPasswd2 = passwd2.value.trim();
+    let values = getFormValues();
+    let lleno = true;
 
-    var lleno = true;
-
-    if (valorNombre === '') {
+    if (vacio(values.valorNombre)) {
         errorPara(nombre, "El nombre de usuario no puede estar vacio.");
         lleno = false;
 
@@ -61,11 +96,11 @@ function verificaCampos() {
         correctoPara(nombre);
     }
 
-    if (valorEmail === '') {
+    if (vacio(values.valorEmail)) {
         errorPara(email, "El email no puede estar vacio.");
         lleno = false;
 
-    } else if (!verificaEmail(valorEmail)) {
+    } else if (!verificaEmail(values.valorEmail)) {
         errorPara(email, "No es una dirección de email válida.");
         lleno = false;
 
@@ -73,15 +108,15 @@ function verificaCampos() {
         correctoPara(email);
     }
 
-    if (valorRFC === '') {
+    if (vacio(values.valorRFC)) {
         errorPara(rfc, "El RFC no puede estar vacio.");
         lleno = false;
 
-    } else if (!verificaRFC(valorRFC)) {
+    } else if (!verificaRFC(values.valorRFC)) {
         errorPara(rfc, "No es un RFC válido.");
         lleno = false;
 
-    } else if (rfcDuplicado(valorRFC)) {
+    } else if (rfcDuplicado(values.valorRFC)) {
         errorPara(rfc, "Este RFC ya está registrado.");
         lleno = false;
 
@@ -89,7 +124,7 @@ function verificaCampos() {
         correctoPara(rfc);
     }
 
-    if (valorPasswd === '') {
+    if (vacio(values.valorPasswd)) {
         errorPara(passwd, "Tu contraseña no puede estar vacia.");
         lleno = false;
 
@@ -97,11 +132,11 @@ function verificaCampos() {
         correctoPara(passwd);
     }
 
-    if (valorPasswd2 === '') {
+    if (vacio(values.valorPasswd2)) {
         errorPara(passwd2, "Este campo no puede estar vacio.");
         lleno = false;
 
-    } else if (valorPasswd !== valorPasswd2) {
+    } else if (values.valorPasswd !== values.valorPasswd2) {
         errorPara(passwd2, "Las contraseñas no coinciden");
         lleno = false;
 
@@ -109,6 +144,11 @@ function verificaCampos() {
         correctoPara(passwd2);
     }
     return lleno;
+}
+
+function vacio(content) {
+    const status = content === '' ? true : false;
+    return status;
 }
 
 function errorPara(valor, mensaje) {
@@ -139,7 +179,7 @@ function verificaRFC(rfc) {
 }
 
 function rfcDuplicado(valorRFC) {
-    let usrActuales = cargarUsuarios();
+    let usrActuales = usr.cargarUsuarios();
     if (usrActuales.length > 0) {
         //Buscamos en el array usrActuales si existe el RFC que se esta intentando crear
         var rfcDuplicado = usrActuales.find(usuario => usuario.rfc === valorRFC.toString());
@@ -150,21 +190,4 @@ function rfcDuplicado(valorRFC) {
         }
     }
     return false;
-}
-
-function crearUsuario() {
-    class Usuario {
-        constructor(nombre, email, rfc, passwd) {
-            this.nombre = nombre;
-            this.email = email;
-            this.rfc = rfc;
-            this.passwd = passwd;
-            this.direccion = "";
-            this.web = "";
-            this.telefono = "";
-        }
-    }
-
-    var nuevoUsuario = new Usuario(nombre.value, email.value, rfc.value, passwd.value);
-    return nuevoUsuario;
 }

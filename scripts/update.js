@@ -8,7 +8,7 @@ const website = document.getElementById("webUrl");
 const passwd = document.getElementById("passwd");
 const passwd2 = document.getElementById("passwd2");
 
-document.addEventListener("DOMContentLoaded", console.log(cargarUsuarios()));
+document.addEventListener("DOMContentLoaded", console.table(cargarUsuarios()));
 
 form.addEventListener('submit', (e) => {
     //Evitamos el envio de forms vacios
@@ -41,17 +41,25 @@ function cargarUsuarios() {
     return usrActuales;
 }
 
+function getFormValues() {
+    const values = {
+        valorNombre: nombre.value.trim(),
+        valorRFC: rfc.value.trim(),
+        valorDireccion: direccion.value.trim(),
+        valorTelefono: telefono.value.trim(),
+        valorWebsite: website.value.trim(),
+        valorPasswd: passwd.value.trim(),
+        valorPasswd2: passwd2.value.trim()
+    };
+    return values;
+}
+
 function verificaCampos() {
     //Validacion de campos de acuerdo a la especificación de requisitos
-    const valorNombre = nombre.value.trim();
-    const valorRFC = rfc.value.trim();
-    const valorDireccion = direccion.value.trim();
-    const valorTelefono = telefono.value.trim();
-    const valorWebsite = website.value.trim();
-    const valorPasswd = passwd.value.trim();
-    const valorPasswd2 = passwd2.value.trim();
+    const { valorNombre, valorRFC, valorDireccion, valorTelefono,
+        valorWebsite, valorPasswd, valorPasswd2 } = getFormValues();
 
-    var lleno = true;
+    let lleno = true;
 
     if (valorNombre === '') {
         errorPara(nombre, "El nombre de usuario no puede estar vacio.");
@@ -149,7 +157,7 @@ function rfcDuplicado(valorRFC) {
     let usrActuales = cargarUsuarios();
     if (usrActuales.length > 0) {
         //Buscamos en el array usrActuales si existe el RFC que se esta intentando crear
-        var rfcDuplicado = usrActuales.find(usuario => usuario.rfc === valorRFC.toString());
+        let rfcDuplicado = usrActuales.find(usuario => usuario.rfc === valorRFC.toString());
 
         //Si esta indefinido significa que es un registro nuevo
         if (typeof rfcDuplicado !== "undefined") {
@@ -165,7 +173,8 @@ function actualizarUsuario() {
     let usrActual = getUserInfo();
     let usrActuales = cargarUsuarios();
 
-    let usrIndex = usrActuales.findIndex(usr => usr.email === usrActual.email);
+    let usrIndex = usrActuales.findIndex(currentUsr => currentUsr.email === usrActual.email);
+    values = getFormValues();
 
     usrActuales[usrIndex].nombre = nombre.value;
     usrActuales[usrIndex].rfc = rfc.value;
@@ -173,6 +182,10 @@ function actualizarUsuario() {
     usrActuales[usrIndex].telefono = telefono.value;
     usrActuales[usrIndex].web = website.value;
     usrActuales[usrIndex].passwd = passwd.value;
+
+    console.table(Object.values(values));
+
+    // usrActuales[usrIndex] = [...usrActual.email, ...values];
 
     localStorage.setItem("Usuarios", JSON.stringify(usrActuales));
     //Creamos la sesión
