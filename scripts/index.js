@@ -49,7 +49,7 @@ class Usuario {
         //Creamos la sesión
         sessionStorage.setItem('Sesion', JSON.stringify(usrSesion));
         // Ahora nos dirijimos al menú de la app
-        window.location.replace("/menu.html");
+        window.location.replace("menu.html");
     }
 }
 
